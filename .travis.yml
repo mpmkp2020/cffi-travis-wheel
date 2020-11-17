@@ -16,6 +16,8 @@ jobs:
         env:
           - MB_PYTHON_VERSION=3.6
           - PLAT=aarch64
+          - NP_BUILD_DEP=numpy==1.17.3
+          - NP_TEST_DEP=numpy==1.17.3
           - DOCKER_TEST_IMAGE=multibuild/xenial_arm64v8
           - DOCKER_IMAGE=quay.io/pypa/manylinux2014_${PLAT}
       - arch: arm64
@@ -32,9 +34,7 @@ jobs:
           - DOCKER_IMAGE=quay.io/pypa/manylinux2014_${PLAT}
 
 before_install:
-    - sudo apt-get install mercurial
-    - hg clone https://foss.heptapod.net/pypy/cffi
-    - (cd cffi; hg up -r `hg tags --template '{tag}\n' | grep '^v' | head -n1`)
+    - git clone https://github.com/Toblerity/Shapely
     - TEST_DEPENDS="pytest pycparser"
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
